@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo App</title>
+  <link rel="stylesheet" href="Index.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📝 My Todo List</h1>
+
+    <form id="taskForm">
+      <input type="text" id="taskInput" placeholder="Enter a new task..." required />
+      <button type="submit">Add Task</button>
+    </form>
+
+    <p class="task-count">Total Tasks: <span id="taskCount">0</span></p>
+
+    <ul id="taskList"></ul>
+  </div>
+
+  <script src="Index.js"></script>
+</body>
+</html>
