@@ -70,7 +70,3 @@ NSDA-Assignment-12/
 
 ### ❤️ Thank you for viewing my first project!
 Feel free to give feedback or suggestions for improvement!
-
-
-## 📁 Project Structure
-
