@@ -7,17 +7,20 @@
   <link rel="stylesheet" href="Index.css" />
 </head>
 <body>
-  <div class="container">
+  <div class="todo-container">
     <h1>📝 My Todo List</h1>
 
-    <form id="taskForm">
-      <input type="text" id="taskInput" placeholder="Enter a new task..." required />
-      <button type="submit">Add Task</button>
+    <form id="todo-form">
+      <input type="text" id="todo-input" placeholder="Add a new task..." required />
+      <button type="submit" class="add-btn">Add</button>
     </form>
 
-    <p class="task-count">Total Tasks: <span id="taskCount">0</span></p>
+    <ul id="todo-list"></ul>
 
-    <ul id="taskList"></ul>
+    <div class="task-footer">
+      <p><span id="task-count">0</span> tasks total</p>
+      <button id="clear-all" class="clear-btn">Clear All</button>
+    </div>
   </div>
 
   <script src="Index.js"></script>

@@ -1,70 +1,101 @@
-// Select elements
-const taskForm = document.getElementById("taskForm");
-const taskInput = document.getElementById("taskInput");
-const taskList = document.getElementById("taskList");
-const taskCount = document.getElementById("taskCount");
+// DOM elements
+const form = document.getElementById("todo-form");
+const input = document.getElementById("todo-input");
+const list = document.getElementById("todo-list");
+const taskCount = document.getElementById("task-count");
+const clearAllBtn = document.getElementById("clear-all");
 
-// Load tasks from localStorage when page loads
-document.addEventListener("DOMContentLoaded", loadTasksFromStorage);
+// Load todos from localStorage
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
 
-// Handle form submission
-taskForm.addEventListener("submit", function (e) {
-  e.preventDefault();
+// Save todos to localStorage
+function saveTodos() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
 
-  const taskText = taskInput.value.trim();
-  if (taskText === "") return;
+// Render todos in the list
+function renderTodos() {
+  list.innerHTML = "";
+  todos.forEach((todo, index) => {
+    const li = document.createElement("li");
 
-  addTaskToList(taskText);
-  saveTaskToStorage(taskText);
-  taskInput.value = "";
-  updateTaskCount();
-});
+    // ✅ Create checkbox
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.completed;
+    checkbox.classList.add("task-checkbox");
+    checkbox.addEventListener("change", () => toggleComplete(index));
 
-// Add a single task to the list
-function addTaskToList(taskText) {
-  const li = document.createElement("li");
-  li.textContent = taskText;
+    // 📝 Task text
+    const span = document.createElement("span");
+    span.textContent = todo.text;
+    span.classList.add("task-text");
+    if (todo.completed) {
+      span.style.textDecoration = "line-through";
+      span.style.color = "#777";
+    }
 
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-  deleteBtn.classList.add("delete-btn");
+    // 🗑️ Delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerHTML = "🗑️";
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteTodo(index);
+    });
 
-  deleteBtn.addEventListener("click", function () {
-    li.remove();
-    deleteTaskFromStorage(taskText);
-    updateTaskCount();
+    // Add all elements to list item
+    li.appendChild(checkbox);
+    li.appendChild(span);
+    li.appendChild(deleteBtn);
+    list.appendChild(li);
   });
 
-  li.appendChild(deleteBtn);
-  taskList.appendChild(li);
+  updateCount();
 }
 
-// Update task count
-function updateTaskCount() {
-  taskCount.textContent = taskList.getElementsByTagName("li").length;
+// Add new todo
+function addTodo(text) {
+  todos.push({ text, completed: false });
+  saveTodos();
+  renderTodos();
 }
 
-// Save task to localStorage
-function saveTaskToStorage(task) {
-  const tasks = getTasksFromStorage();
-  tasks.push(task);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+// Delete a todo
+function deleteTodo(index) {
+  todos.splice(index, 1);
+  saveTodos();
+  renderTodos();
 }
 
-// Get tasks array from localStorage
-function getTasksFromStorage() {
-  return JSON.parse(localStorage.getItem("tasks")) || [];
+// Toggle completion status
+function toggleComplete(index) {
+  todos[index].completed = !todos[index].completed;
+  saveTodos();
+  renderTodos();
 }
 
-// Load all tasks on startup
-function loadTasksFromStorage() {
-  const tasks = getTasksFromStorage();
-  tasks.forEach(addTaskToList);
-  updateTaskCount();
+// Update task counter
+function updateCount() {
+  taskCount.textContent = todos.length;
 }
 
-// Delete task from localStorage
-function deleteTaskFromStorage(taskToDelete) {
-  const tasks = getTasksFromStorage().filter(task => task !== taskToDelete);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+// Handle form submission
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (text !== "") {
+    addTodo(text);
+    input.value = "";
+  }
+});
+
+// Clear all tasks
+clearAllBtn.addEventListener("click", () => {
+  todos = [];
+  saveTodos();
+  renderTodos();
+});
+
+// Initial render
+renderTodos();
