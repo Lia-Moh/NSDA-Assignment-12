@@ -4,7 +4,7 @@ It was created as part of **NSDA Assignment 12**.
 
 You can add tasks, mark them as complete, delete them, and your list stays saved even after refreshing — thanks to **localStorage**.
 
-## 🌟 Preview
+## 🌟 Preview 👇
 
 ![Project Screenshot](screenshot.png)
 
