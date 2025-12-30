@@ -9,7 +9,7 @@ You can add tasks, mark them as complete, delete them, and your list stays saved
 ![Project Screenshot](screenshot.png)
 
 ## 🚀 Live Demo
-Check out the live version here: To-Do List Live Link](https://precious-praline-43f32d.netlify.app/
+Check out the live version here: (https://precious-praline-43f32d.netlify.app/
 )
 
 ## 🚀 Features
